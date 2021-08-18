@@ -1,0 +1,18 @@
+# static configuration
+[log]
+    level = "INFO"
+    filePath = "/logs/traefik.log"
+    format = "json"
+
+[api]
+    insecure = true
+
+[entryPoints.web]
+    address = ":80"
+[entryPoints.websecure]
+    address = ":443"
+
+[providers.docker]
+    exposedByDefault = false
+    watch = true
+    swarmMode = false

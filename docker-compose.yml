@@ -1,0 +1,80 @@
+version: '3.8'
+
+services:
+    
+    traefik:
+        container_name: ${COMPOSE_PROJECT_NAME}_traefik
+        image: traefik:2.4.13
+        ports:
+            - "80:80"
+            - "8080:8080"
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+            - ./traefik/traefik.toml:/traefik.toml
+            - ./traefik/logs:/logs
+            
+    mailhog:
+        container_name: ${COMPOSE_PROJECT_NAME}_mailhog
+        image: mailhog/mailhog:latest
+        ports:
+            - "1025:1025"
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.${COMPOSE_PROJECT_NAME}_mailhog.rule=Host(`mailhog.${COMPOSE_BASE_DOMAIN}`)"
+            - "traefik.http.services.${COMPOSE_PROJECT_NAME}_mailhog.loadbalancer.server.port=8025"
+            - "traefik.port=80"
+            
+    mariadb:
+        container_name: ${COMPOSE_PROJECT_NAME}_mariadb
+        image: mariadb:10.6.4
+        hostname: mariadb
+        volumes:
+        - ./data:/var/lib/mysql
+        ports:
+            - 3306:3306
+        environment:
+            - MYSQL_ROOT_PASSWORD=root
+            
+    phpmyadmin:
+        container_name: ${COMPOSE_PROJECT_NAME}_phpmyadmin
+        image: phpmyadmin/phpmyadmin:5.1.1
+        hostname: phpmyadmin
+        environment:
+            - PMA_HOSTS=mariadb,mariadb-basic.mariadb.database.azure.com
+        depends_on:
+            - mariadb
+        volumes:
+            - /sessions
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.${COMPOSE_PROJECT_NAME}_phpmyadmin.rule=Host(`phpmyadmin.${COMPOSE_BASE_DOMAIN}`)"
+            - "traefik.port=80"
+
+    app_redis:
+        container_name: ${COMPOSE_PROJECT_NAME}_app_redis
+        image: redis:6.2.5-alpine
+        hostname: app_redis
+
+    redis_admin:
+        container_name: ${COMPOSE_PROJECT_NAME}_redis_admin
+        hostname: phpredisadmin
+        image: erikdubbelboer/phpredisadmin
+        depends_on:
+            - app_redis
+        environment:
+            - REDIS_1_HOST=app_redis
+            - REDIS_1_NAME=app_redis
+            - REDIS_2_HOST=phcomm-app.redis.cache.windows.net
+            - REDIS_2_NAME=azure
+            - REDIS_2_PORT=6379
+            - REDIS_2_AUTH=OLKKQ12ey9kacoFPRRlah5AkQh64Qdy8x5mSsbDqTeU=
+            - REDIS_2_DATABASES=4
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.${COMPOSE_PROJECT_NAME}_redis_admin.rule=Host(`redis_admin.${COMPOSE_BASE_DOMAIN}`)"
+            - "traefik.port=80"
+               
+networks:
+    default:
+        name: ${COMPOSE_PROJECT_NAME}-local-net
+        driver: bridge
