@@ -34,6 +34,11 @@ services:
             - 3306:3306
         environment:
             - MYSQL_ROOT_PASSWORD=root
+        labels:
+            - "traefik.enable=true"
+            - "traefik.tcp.routers.${COMPOSE_PROJECT_NAME}_mariadb.rule=HostSNI(`mariadb.${COMPOSE_BASE_DOMAIN}`)"
+            - "traefik.tcp.routers._mariadb.service=mariadb-svc"
+            - "traefik.tcp.services._mariadb-svc.loadbalancer.server.port=3306"
             
     phpmyadmin:
         container_name: ${COMPOSE_PROJECT_NAME}_phpmyadmin
@@ -52,6 +57,21 @@ services:
             - "traefik.enable=true"
             - "traefik.http.routers.${COMPOSE_PROJECT_NAME}_phpmyadmin.rule=Host(`phpmyadmin.${COMPOSE_BASE_DOMAIN}`)"
             - "traefik.port=80"
+    
+    ftpserver:
+        container_name: ${COMPOSE_PROJECT_NAME}_ftpserver
+        image: stilliard/pure-ftpd
+        hostname: ftpserver
+        volumes:
+            - ../:/home
+        ports:
+            - "21:21"
+            - "30000-30009:30000-30009"
+        environment:
+            PUBLICHOST: "localhost"
+            FTP_USER_NAME: "ftpuser"
+            FTP_USER_PASS: "ftppass"
+            FTP_USER_HOME: "/home"
 
     app_redis:
         container_name: ${COMPOSE_PROJECT_NAME}_app_redis
