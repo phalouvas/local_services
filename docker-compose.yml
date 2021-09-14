@@ -46,8 +46,6 @@ services:
         hostname: phpmyadmin
         environment:
             - PMA_HOSTS=mariadb,mariadb-basic.mariadb.database.azure.com
-            - PMA_USER=root
-            - PMA_PASSWORD=root
             - UPLOAD_LIMIT=2000M
         depends_on:
             - mariadb
