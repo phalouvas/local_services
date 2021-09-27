@@ -2,17 +2,6 @@ version: '3.8'
 
 services:
     
-    traefik:
-        container_name: ${COMPOSE_PROJECT_NAME}_traefik
-        image: traefik:2.4.13
-        ports:
-            - "80:80"
-            - "8080:8080"
-        volumes:
-            - /var/run/docker.sock:/var/run/docker.sock
-            - ./traefik/traefik.toml:/traefik.toml
-            - ./traefik/logs:/logs
-            
     mailhog:
         container_name: ${COMPOSE_PROJECT_NAME}_mailhog
         image: mailhog/mailhog:latest
@@ -95,7 +84,3 @@ services:
             - "traefik.http.routers.${COMPOSE_PROJECT_NAME}_redis_admin.rule=Host(`redis_admin.${COMPOSE_BASE_DOMAIN}`)"
             - "traefik.port=80"
                
-networks:
-    default:
-        name: ${COMPOSE_PROJECT_NAME}-local-net
-        driver: bridge
