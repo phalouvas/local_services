@@ -18,6 +18,9 @@ if [ ! -f configuration.php ]; then
     cd /var/www/html
     cp htaccess.txt .htaccess
     cp configuration.azure.php configuration.php
+    mkdir tmp
+    cd administrator
+    mkdir logs
 fi
 cd /var/www
 chown -R www-data:www-data html
