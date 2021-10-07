@@ -6,7 +6,10 @@ RUN set -ex; \
 	apt-get update; \
 	apt-get install -y --no-install-recommends \
 		openssh-server \
-	;
+		libxml2-dev \
+	; \
+docker-php-ext-install \
+	soap;
 
 VOLUME /var/www/html
 
