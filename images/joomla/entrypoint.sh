@@ -22,6 +22,7 @@ fi
 cd /var/www/html
 chown -R www-data:www-data images
 chown -R www-data:www-data administrator/logs
+chown -R www-data:www-data administrator/cache
 chown -R www-data:www-data tmp
 chown -R www-data:www-data configuration.php
 
