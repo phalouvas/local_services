@@ -19,7 +19,10 @@ if [ ! -f configuration.php ]; then
     cp htaccess.txt .htaccess
     cp configuration.azure.php configuration.php
 fi
-cd /var/www
-chown -R www-data:www-data html
+cd /var/www/html
+chown -R www-data:www-data images
+chown -R www-data:www-data administrator/logs
+chown -R www-data:www-data tmp
+chown -R www-data:www-data configuration.php
 
 exec "$@"
