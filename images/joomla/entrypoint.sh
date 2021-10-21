@@ -21,7 +21,13 @@ if [ ! -f configuration.php ]; then
 fi
 cd /var/www/html
 chown -R www-data:www-data images
+if [ ! -d administrator/logs ]; then
+ mkdir administrator/logs
+fi
 chown -R www-data:www-data administrator/logs
+if [ ! -d administrator/cache ]; then
+ mkdir administrator/cache
+fi
 chown -R www-data:www-data administrator/cache
 chown -R www-data:www-data tmp
 chown -R www-data:www-data configuration.php
