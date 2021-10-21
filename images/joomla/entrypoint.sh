@@ -29,6 +29,10 @@ if [ ! -d administrator/cache ]; then
  mkdir administrator/cache
 fi
 chown -R www-data:www-data administrator/cache
+chown -R www-data:www-data administrator/logs
+if [ ! -d tmp ]; then
+ mkdir tmp
+fi
 chown -R www-data:www-data tmp
 chown -R www-data:www-data configuration.php
 
