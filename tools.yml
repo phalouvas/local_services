@@ -15,7 +15,7 @@ services:
             
     mariadb:
         container_name: ${COMPOSE_PROJECT_NAME}_mariadb
-        image: mariadb:10.6.4
+        image: mariadb:10.8.3
         hostname: mariadb
         volumes:
         - ./data:/var/lib/mysql
@@ -31,7 +31,7 @@ services:
             
     phpmyadmin:
         container_name: ${COMPOSE_PROJECT_NAME}_phpmyadmin
-        image: phpmyadmin/phpmyadmin:5.1.2
+        image: phpmyadmin/phpmyadmin:5.2.0
         hostname: phpmyadmin
         environment:
             - PMA_HOSTS=mariadb,mariadb-basic.mariadb.database.azure.com
@@ -47,7 +47,7 @@ services:
     
     ftpserver:
         container_name: ${COMPOSE_PROJECT_NAME}_ftpserver
-        image: stilliard/pure-ftpd
+        image: stilliard/pure-ftpd:latest
         hostname: ftpserver
         volumes:
             - ../:/home
@@ -62,13 +62,13 @@ services:
 
     app_redis:
         container_name: ${COMPOSE_PROJECT_NAME}_app_redis
-        image: redis:6.2.5-alpine
+        image: redis:7.0.4-alpine
         hostname: app_redis
 
     redis_admin:
         container_name: ${COMPOSE_PROJECT_NAME}_redis_admin
         hostname: phpredisadmin
-        image: erikdubbelboer/phpredisadmin
+        image: erikdubbelboer/phpredisadmin:latest
         depends_on:
             - app_redis
         environment:
