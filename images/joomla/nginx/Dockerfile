@@ -1,4 +1,4 @@
-FROM joomla:php8.0-fpm
+FROM joomla:php8.1-fpm
 LABEL maintainer="KAINOTOMO PH LTD <info@kainotomo.com>"
 
 ARG DEBIAN_FRONTEND=noninteractive
@@ -17,14 +17,14 @@ docker-php-ext-install \
 	soap;
 
 # Cleanup
-RUN rm -rf /etc/php/8.0
+RUN rm -rf /etc/php/8.1
 RUN apt-get clean; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/* \
     && export TERM=xterm
 
 ENV NGINX_CONF_DIR=/etc/nginx
 COPY ./configs/nginx.conf ${NGINX_CONF_DIR}/nginx.conf
 COPY ./configs/app.conf ${NGINX_CONF_DIR}/sites-enabled/app.conf
-COPY ./configs/www.conf /etc/php/8.0/fpm/pool.d/www.conf
+COPY ./configs/www.conf /etc/php/8.1/fpm/pool.d/www.conf
 
 VOLUME /var/www/html
 

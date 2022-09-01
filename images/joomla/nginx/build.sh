@@ -1,2 +1,2 @@
-docker build . --tag phalouvas/joomla:php8.0-nginx
-docker push phalouvas/joomla:php8.0-nginx
+docker build . --tag phalouvas/joomla:php8.1-nginx
+docker push phalouvas/joomla:php8.1-nginx
