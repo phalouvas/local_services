@@ -34,8 +34,8 @@ services:
         image: phpmyadmin/phpmyadmin:5.2.0
         hostname: phpmyadmin
         environment:
-            - PMA_HOSTS=mariadb,mariadb-basic.mariadb.database.azure.com,conferences
-            - PMA_PORTS=3306,3306,3306
+            - PMA_HOSTS=mariadb,mariadb-basic.mariadb.database.azure.com,conferences,ph_parking
+            - PMA_PORTS=3306,3306,3306,3308
             - UPLOAD_LIMIT=2000M
         depends_on:
             - mariadb
