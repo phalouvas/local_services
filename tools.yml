@@ -53,7 +53,7 @@ services:
         volumes:
             - ../:/home
         ports:
-            - "21:21"
+            - "22:21"
             - "30000-30009:30000-30009"
         environment:
             PUBLICHOST: "localhost"
