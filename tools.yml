@@ -31,7 +31,7 @@ services:
             
     phpmyadmin:
         container_name: ${COMPOSE_PROJECT_NAME}_phpmyadmin
-        image: phpmyadmin/phpmyadmin:5.2.0
+        image: phpmyadmin/phpmyadmin:5.2.1
         hostname: phpmyadmin
         environment:
             - PMA_HOSTS=mariadb,mariadb-basic.mariadb.database.azure.com,conferences,ph_parking
